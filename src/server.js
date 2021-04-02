@@ -35,7 +35,7 @@ var song_queue = [];
 var requestLocked = false;
 var ytToken = "";
 try {
-    ytToken = fs.readFileSync(__dirname+"\\yt-token.txt", "utf-8");
+    ytToken = fs.readFileSync(__dirname+"/yt-token.txt", "utf-8");
 } catch (error) {console.log("Warning: Youtube API key not found");}
 
 const app = express();
