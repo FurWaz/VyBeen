@@ -1,0 +1,33 @@
+{
+  "name": "vybeen",
+  "version": "0.1.0",
+  "description": "A realtime music streaming website",
+  "main": "/server/server.js",
+  "scripts": {
+    "test": "node ./src/server.js",
+    "start": "node ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FurWaz/VyBeen.git"
+  },
+  "keywords": [
+    "Youtube",
+    "FurWaz",
+    "Streaming",
+    "Music",
+    "VyBeen"
+  ],
+  "author": "FurWaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FurWaz/VyBeen/issues"
+  },
+  "homepage": "https://github.com/FurWaz/VyBeen#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.0.0",
+    "youtube-search": "^1.1.6",
+    "ytdl-core": "^4.5.0"
+  }
+}

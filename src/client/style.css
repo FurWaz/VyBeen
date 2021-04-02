@@ -1,0 +1,323 @@
+/*
+    Copyright (C) 2021 FurWaz
+
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
+    OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+    CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+
+:root {
+    --color-dark: #2c323e;
+    --color-back: #374256;
+    --color-primary: #0080d4;
+    --color-secondary: #c9d6e5;
+    --color-background: #3c4c66;
+    --color-border: var(--color-background);
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    height: 100vh;
+    background: var(--color-dark);
+    background-size: 100vw 100vh;
+}
+
+.nosize {
+    margin: 0px; padding: 0px;
+    width: 0px; height: 0px;
+}
+
+div#page-background {
+    background: url('./background.png');
+    background-size: 100%;
+    height: 100vh; width: 100vw;
+    filter: blur(30px);
+}
+
+div#header-container {
+    height: min-content;
+    width: 100vw;
+    padding-left: 20px;
+    border-bottom: solid 2px var(--color-border);
+    text-align: left;
+    display: inline-flex;
+    justify-content: space-between;
+}
+div#header-title-box {
+    height: fit-content;
+    width: fit-content;
+}
+h1#header-title-text {
+    font-size: 40px;
+    margin: 0px; padding: 4px 8px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--color-primary);
+}
+div#header-user-container {
+    margin: 10px;
+    margin-right: 30px;
+    padding: 2px; padding-left: 0px;
+    width: min-content;
+    height: min-content;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0px 0px 20px var(--color-dark);
+    background-color: var(--color-background);
+}
+input#header-user-name {
+    font-size: 20px;
+    margin: 0px; padding: 4px;
+    margin-left: 4px;
+    width: min-content;
+    color: var(--color-primary);
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--color-background);
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+div#page-container {
+    display: inline-flex;
+    width: 100vw;
+    height: 100%;
+}
+
+div#content-zone {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+div#player-container {
+    width: 100%;
+    margin-bottom: 20vh;
+    text-align: center;
+}
+div#preview-player-container {
+    width: min-content;
+    height: min-content;
+    margin: auto;
+    border-radius: 6px;
+    background-color: var(--color-background);
+    box-shadow: 0px 0px 15px var(--color-dark);
+}
+div#preview-pic-container {
+    height: min-content;
+    width: min-content;
+    padding: 10px;
+    padding-bottom: 0px;
+    border-radius: 8px;
+    border: none;
+}
+img#preview-pic-content {
+    width: 28vw;
+    height: 16vw;
+    margin: 0px; padding: 0px;
+    border-radius: 6px;
+    background-color: var(--color-background);
+    box-shadow: 0px 0px 10px #0002 inset;
+}
+h3#preview-pic-title {
+    margin: 0px; padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: var(--color-secondary);
+}
+div#preview-bar-container {
+    height: 1vh;
+    border-radius: 6px;
+    margin: 10px 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--color-back);
+    box-shadow: 0px 0px 10px #0002 inset;
+}
+div#preview-bar-content {
+    height: 100%;
+    width: 0%;
+    background-color: var(--color-primary);
+    transition: width 200ms ease;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+div#preview-bar-loaded {
+    height: 100%;
+    width: 0%;
+    background-color: transparent;
+    transition: width 200ms ease;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+div#message-container {
+    margin: 0px auto;
+    text-align: center;
+    padding: 0px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 200ms ease;
+}
+p#message-text {
+    padding: 0px; margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: var(--color-secondary);
+}
+div#preview-controls {
+    height: 30px;
+    width: calc(100% - 4px);
+    border-radius: 6px;
+    margin: auto;
+    padding-bottom: 10px;
+    display: inline-flex;
+}
+div#preview-pause-button, div#preview-volume-button {
+    height: 30px; width: min-content;
+    margin: 4px; padding: 0px;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+} div#preview-pause-button > span, div#preview-volume-button > span {
+    font-size: 30px;
+    margin: 0px; padding: 0px;
+    color: var(--color-primary);
+}
+div#preview-link-container {
+    border-radius: 6px;
+    display: inline-flex;
+    height: max-content; width: 100%;
+    margin: 4px; padding: 0px;
+    overflow: hidden;
+}
+input#preview-link-input {
+    margin: 0px; padding: 0px 4px;
+    width: 100%;
+    height: 30px;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--color-back);
+    box-shadow: 0px 0px 10px #0002 inset;
+    color: var(--color-secondary);
+}
+div#preview-link-button {
+    margin: 0px 2px; padding: 0px;
+    height: 30px; width: 30px;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+}
+div#preview-link-button > span {
+    font-size: 30px;
+    color: var(--color-primary);
+}
+
+div#info-zone {
+    width: 15%;
+    height: 100%;
+    border-left: solid 2px var(--color-border);
+}
+div#listener-container {
+    margin: 20px 10px;
+    padding: 0px;
+    border-radius: 6px;
+    height: fit-content;
+}
+div#listener-title-box {
+    border-bottom: solid 2px var(--color-border);
+    height: min-content;
+    width: 100%;
+}
+h2#listener-title-text {
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--color-secondary);
+    margin: 0px; padding: 4px 8px;
+}
+div#listener-list-container {
+    min-height: 5vh;
+    height: fit-content;
+    width: 100%;
+}
+
+div.user-container {
+    margin: 10px auto;
+    width: min-content;
+    height: fit-content;
+    border-radius: 6px;
+    padding: 2px 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--color-background);
+    box-shadow: 0px 0px 15px var(--color-dark);
+}
+div.user-center {
+    padding: 0px; margin: 2px 6px;
+    width: min-content;
+    height: fit-content;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+div.user-ncenter > span {
+    font-size: 34px;
+    padding: 0px; margin: 0px;
+    color: var(--color-primary);
+}
+div.user-name {
+    font-size: 20px;
+    margin: 0px; padding: 0px;
+    margin-left: 4px;
+    white-space: nowrap;
+    color: var(--color-primary);
+    font-family: Arial, Helvetica, sans-serif;
+}
+div.user-ncenter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 20px;
+    margin: 0px; padding: 0px;
+    color: var(--color-secondary);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+div#preview-volume-slider-container {
+    width: 30px; height: 0px;
+    padding-top: 30px;
+    transition: height 150ms ease;
+    overflow: hidden;
+}
+div#preview-volume-slider-content {
+    transform: scale(-1);
+    background-color: var(--color-background);
+    border-radius: 6px;
+    overflow: hidden;
+    width: 100%; height: 100px;
+    box-shadow: 0px 0px 10px #0000;
+    transition: box-shadow 150ms ease;
+}
+div#preview-volume-slider-slide {
+    background-color:  var(--color-primary);
+    width: 100%; height: 50%;
+    transition: height 50ms ease;
+}
