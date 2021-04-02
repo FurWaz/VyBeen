@@ -46,7 +46,7 @@ app.get('/*', (req, res) => {
     path = __dirname+"/client"+path;
     res.sendFile(path);
 });
-server.listen(80);
+server.listen(5621);
 
 function playNextSong() {
     if (song_queue.length < 1) return;
