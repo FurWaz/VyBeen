@@ -130,6 +130,8 @@ io.on('connection', function(socket) {
                 ytSearch(data.url, opts, function(err, results) {
                     if (err) {
                         console.log("error");
+                        io.socket.emit('message', {message: "Error: can't get video informations."});
+                        setTimeout(()=>{io.sockets.emit('message_end', {});}, 3000);
                         requestLocked = false;
                         return;
                     }
@@ -165,7 +167,6 @@ function sendPartsTo(s) {
     let sendChunk = () => {
         if (requestLocked) return;
         const pa = wav_parts[i+cur_wav_index];
-        console.log('sending part '+i);
         s.emit('audiodata', {chunk: pa, index: i});
         if (i < (wav_parts.length - cur_wav_index)) {
             i++;
