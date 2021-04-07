@@ -130,7 +130,7 @@ io.on('connection', function(socket) {
                 ytSearch(data.url, opts, function(err, results) {
                     if (err) {
                         console.log("error");
-                        io.socket.emit('message', {message: "Error: can't get video informations."});
+                        io.sockets.emit('message', {message: "Error: can't get video informations."});
                         setTimeout(()=>{io.sockets.emit('message_end', {});}, 3000);
                         requestLocked = false;
                         return;
