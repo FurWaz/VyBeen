@@ -14,7 +14,6 @@
     CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-const https = require('https');
 const http = require('http');
 const fs = require('fs');
 const ytdl = require('ytdl-core');
@@ -110,6 +109,8 @@ io.on('connection', function(socket) {
         else io.sockets.emit('setPlay', {});
     })
     socket.on('loadUrl', (data) => {
+        if (requestLocked) return;
+        requestLocked = true;
         io.sockets.emit('message_start', {});
         io.sockets.emit('message', {message: "Searching video ..."});
         if (data.url.startsWith("https://www.youtube.com/watch?v=") || data.url.startsWith("https://music.youtube.com/watch?v=")) {
@@ -127,7 +128,11 @@ io.on('connection', function(socket) {
                 };
                 let videoLink = "";
                 ytSearch(data.url, opts, function(err, results) {
-                    if (err) return console.log("error");
+                    if (err) {
+                        console.log("error");
+                        requestLocked = false;
+                        return;
+                    }
                     videoLink=results[0].link;
                     loadStream(videoLink);
                 });
@@ -158,7 +163,9 @@ function sendPartsTo(s) {
     let cur_wav_index = wav_index;
     let i = 0;
     let sendChunk = () => {
+        if (requestLocked) return;
         const pa = wav_parts[i+cur_wav_index];
+        console.log('sending part '+i);
         s.emit('audiodata', {chunk: pa, index: i});
         if (i < (wav_parts.length - cur_wav_index)) {
             i++;
@@ -172,7 +179,13 @@ function loadStream(vidUrl) {
     io.sockets.emit('message', {message: 'Getting informations ...'});
     ytdl.getBasicInfo(vidUrl).then((vidInfo) => {
         cur_vid = vidInfo;
-        if (cur_vid.videoDetails.lengthSeconds > 600) return;
+        io.sockets.emit('message', {message: 'Preparing download ...'});
+        if (cur_vid.videoDetails.lengthSeconds > 600) {
+            requestLocked = false;
+            io.sockets.emit('message', {message: 'The video is too long, please send a video shorter than 10min'});
+            setTimeout(() => {io.sockets.emit('message_end', {});}, 3000);
+            return;
+        }
         current_ytdl_stream = ytdl(vidUrl, {
             filter: "audioonly",
             quality: "highest",
@@ -192,6 +205,7 @@ function loadStream(vidUrl) {
         current_ytdl_stream.on('end', () => {
             io.sockets.emit('message', {message: 'Converting ...'});
             exec('ffmpeg -i input.ogg -ar 48000 output.wav -y', (error, out, err) => {
+                exec('rm input.ogg', (err, o, e) => {});
                 let fsStream = fs.createReadStream('./output.wav', {highWaterMark: 48000*2*2});
                 fsStream.on('data', (chunk) => {
                     wav_parts.push(chunk);
@@ -208,14 +222,17 @@ function loadStream(vidUrl) {
                         thumbnail: cur_vid.videoDetails.thumbnails[cur_vid.videoDetails.thumbnails.length-1].url,
                         length: cur_vid.videoDetails.lengthSeconds
                     });
+                    exec('rm output.wav', (err, o, e) => {});
                     isStream = true;
+                    requestLocked = false;
                     sendPartsTo(io.sockets);
                     setTimeout(changeTime, 1000);
-                })
+                });
             });
         });
     }).catch((e) => {
         io.sockets.emit('message', {message: "Error: Cannot get youtube stream, abording."});
         setTimeout(() => {io.sockets.emit('message_end', {});}, 3000);
+        requestLocked = false;
     });
 }

@@ -53,6 +53,7 @@ window.onload = () => {
     socket.on('changePreview', changePreview);
     socket.on('message_start', (data) => {
         document.getElementById("message-container").style.maxHeight = "20px";
+        isPlaying = false;
     });
     socket.on('message_end', (data) => {
         document.getElementById("message-container").style.maxHeight = "0px";
@@ -75,20 +76,22 @@ window.onload = () => {
  */
 function loadNewAudioInfo(data) {
     songProgress = data.shift;
-    audioSources.splice(0, audioSources.length);
+    audioSources = []
+    isPlaying = false;
+    indexShift = 0;
+    pauseState = false;
 }
 
 function readNextSource() {
-    if (indexShift < songLength) {
+    if (indexShift < songLength && isPlaying) {
         setTimeout(readNextSource, 999.5);
         if (pauseState) return;
         try {
-            let source = audioSources.splice(0, 1)[0]
             indexShift++;
+            let source = audioSources.splice(0, 1)[0]
             source.start();
-        } catch (error) {console.log("error reading new chunk")}
+        } catch (error) {}
     } else {
-        console.log('ending song')
         isPlaying = false;
         indexShift = 0;
     }
@@ -100,8 +103,8 @@ function readNextSource() {
  * Processes the chunks sent from the stream
  */
 function processChunk(data) {
-    if (audioSources.length == 0) indexShift = data.index;
     if (!isPlaying) {
+        indexShift = data.index;
         isPlaying = true;
         readNextSource();
     }
@@ -115,7 +118,7 @@ function processChunk(data) {
             source.buffer = buffer;
             source.connect(output);
             audioSources[data.index-indexShift] = source;
-        }, err => {console.log(err);});
+        }, err => {});
     } catch (e) {}
 }
 
@@ -126,8 +129,6 @@ function changePreview(data) {
     document.getElementById("preview-pic-title").innerHTML = data.title;
     document.getElementById("preview-pic-content").src = data.thumbnail;
     songLength = parseInt(data.length);
-    indexShift = 0;
-    isPlaying = false;
 }
 
 function debug() {
