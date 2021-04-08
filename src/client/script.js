@@ -157,7 +157,10 @@ function setupInputEvents() {
         localStorage.setItem('username', user.username);
     };
     document.getElementById("preview-volume-button").onmouseover = () => {
-        document.getElementById("preview-volume-slider-container").style.height = "120px";
+        if (window.innerHeight > window.innerWidth)
+            document.getElementById("preview-volume-slider-container").style.height = "120px";
+        else
+            document.getElementById("preview-volume-slider-container").style.height = "21vh";
         document.getElementById("preview-volume-slider-content").style.boxShadow = "0px 0px 10px #0004";
     };
     document.getElementById("preview-volume-button").onmouseout = () => {
