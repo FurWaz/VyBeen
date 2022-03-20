@@ -1,21 +1,18 @@
 {
   "name": "vybeen",
-  "version": "0.1.0",
-  "description": "A realtime music streaming website",
-  "main": "/server/server.js",
+  "version": "1.0.0",
+  "description": "Realtime YouTube music player for multiple guests",
+  "main": "server.js",
   "scripts": {
-    "test": "node ./src/server.js",
-    "start": "node ./src/server.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FurWaz/VyBeen.git"
   },
   "keywords": [
-    "Youtube",
     "FurWaz",
-    "Streaming",
-    "Music",
     "VyBeen"
   ],
   "author": "FurWaz",
@@ -25,9 +22,9 @@
   },
   "homepage": "https://github.com/FurWaz/VyBeen#readme",
   "dependencies": {
-    "express": "^4.17.1",
-    "socket.io": "^4.0.0",
+    "express": "^4.17.3",
+    "socket.io": "^4.4.1",
     "youtube-search": "^1.1.6",
-    "ytdl-core": "^4.5.0"
+    "ytdl-core": "^4.11.0"
   }
 }
