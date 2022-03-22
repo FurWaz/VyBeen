@@ -1,6 +1,6 @@
 {
   "name": "vybeen",
-  "version": "1.0.0",
+  "version": "21.0.0",
   "description": "Realtime YouTube music player for multiple guests",
   "main": "server.js",
   "scripts": {
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/FurWaz/VyBeen#readme",
   "dependencies": {
     "express": "^4.17.3",
+    "node-fetch": "2.0",
     "socket.io": "^4.4.1",
     "youtube-search": "^1.1.6",
     "ytdl-core": "^4.11.0"

@@ -1,8 +1,11 @@
-const youtubeKey = require("fs").readFileSync("./ytKey.txt", {encoding: "utf-8"});
 const ytdl = require("ytdl-core");
 const ytSearch = require("youtube-search");
 const playlist = require("./playlist");
 const common = require("./common");
+let youtubeKey = null;
+try {
+    youtubeKey = require("fs").readFileSync("./ytKey.txt", {encoding: "utf-8"});
+} catch (e) {}
 
 let playCallback = () => {};
 let currentVideo = {
@@ -24,11 +27,8 @@ setInterval(() => {
         common.setVideoInfos(song);
         playCallback();
     } else {
-        if (Date.now()/1000 > currentVideo.startTime+currentVideo.length) {
-            if (!currentVideo.callbackCalled) {try {playlist.callback();} catch (e) {}}
-            currentVideo.callbackCalled = true;
+        if (Date.now()/1000 > currentVideo.startTime+currentVideo.length)
             currentVideo.playing = false;
-        }
     }
 }, 1000);
 
@@ -66,7 +66,8 @@ function getVideoInfos(url) {
 function getVideoURL(string) {
     return new Promise((resolve, reject) => {
         if (!string.startsWith("http")) { // get video id from key words
-            ytSearch(string, {maxResults: 1, key: youtubeKey}).then((res, err) => {
+            if (youtubeKey == null) reject("No youtube key");
+            else ytSearch(string, {maxResults: 1, key: youtubeKey}).then((res, err) => {
                 if (err) reject(err);
                 else resolve(res.results[0].link);
             });

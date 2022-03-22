@@ -52,7 +52,7 @@ function setup(server) {
         socket.emit(msg, args);
     };
     manager.updateClients = () => {
-        manager.broadCast(CONSTANTS.GUEST_LIST, clients.map(s => s.name));
+        manager.broadCast(CONSTANTS.GUEST_LIST, clients);
     };
 }
 

@@ -1,12 +1,10 @@
 let songs = [];
-let playCallback = () => {};
 let updateCallback = () => {};
 
 function addSong(song) {
     song.id = Date.now();
     songs.push(song);
     updateCallback();
-    playCallback();
     return true;
 }
 
@@ -20,7 +18,6 @@ function remSong(id) {
     if (index < 0) return false;
     const res = songs.splice(index, 1).length > 0;
     updateCallback();
-    playCallback();
     return res;
 }
 
@@ -73,6 +70,5 @@ module.exports = {
     next,
     clear,
     preview,
-    getLastSong,
-    callback: () => {next(); playCallback();}
+    getLastSong
 }

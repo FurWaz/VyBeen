@@ -1,4 +1,4 @@
-let socket = io();
+const socket = io();
 let startTime = Date.now();
 let guestName = "Guest";
 let videoDetails = null;
@@ -47,7 +47,6 @@ socket.on("custom/error", err => {
 });
 
 socket.on(CONSTANTS.UPDATE_PLAYLIST, playlist => {
-    console.log("playlist: ", playlist.map(s => s.title));
     const container = document.getElementById("playlist");
     container.innerHTML = "";
     playlist.forEach(song => {
@@ -83,9 +82,10 @@ socket.on("custom/setURL", val => {
 socket.on("custom/guestsList", list => {
     const gList = document.getElementById("guest-list");
     gList.innerHTML = "";
-    list.forEach(name => {
-        const style = (name == guestName)? " style=\"color: var(--color-secondary)\"": "";
-        name = (name == guestName)? "(You) "+name: name;
+    list.forEach(guest => {
+        const idMe = guest.id == socket.id;
+        const style = idMe? " style=\"color: var(--color-secondary)\"": "";
+        const name = idMe? "(You) "+guest.name: guest.name;
         gList.innerHTML += `
         <div class="guest-box">
             <p${style}>${name}</p>
@@ -121,4 +121,15 @@ onload = () => {
         const percent = progress*100 / videoDetails.infos.length;
         barContent.style.width = percent+"%";
     }, 200);
+}
+
+function deezer() {
+    fetch("/makeRequest?url=https://api.deezer.com/user/1275116744/flow")
+    .then(data => data.text().then(json => {
+        const body = JSON.parse(json);
+        body.data.forEach(song => {
+            const search = song.title + " - " + song.artist.name;
+            socket.emit(CONSTANTS.GET_URL, search);
+        });
+    }));
 }
