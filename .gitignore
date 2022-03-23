@@ -1,5 +1,5 @@
 node_modules
-src/yt-token.txt
+ytKey.txt
 assets
 .gitattributes
 input.ogg
