@@ -1,9 +1,12 @@
 import express from 'express';
 import search from './modules/search.js';
 import infos from './modules/infos.js';
+import cors from 'cors';
 
 const app = express();
 let currentVideoInfos = null;
+
+app.use(cors({ origin: '*' }));
 
 app.get("/", (req, res) => {
     res.redirect("https://furwaz.com/vybeen");
