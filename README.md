@@ -42,6 +42,7 @@ Returns the lyrics of the last searched song
 ```
 
 You can try VyBeen on my own website [here](https://furwaz.com/vybeen)
+And the VyBeen API is available [here](https://vybeen.furwaz.com/)
 
 ---
 Author: [FurWaz](https://github.com/FurWaz)
