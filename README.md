@@ -1,20 +1,47 @@
 # VyBeen
-**A realtime music streaming website in pure JS/NodeJS.**
+Youtube song streaming server made in Node JS
 
-## Run the website
-To run the nodeJS server, be sure that a recent version of nodeJS is installed.
-Next, go at the project's root folder and do:
-```bash
-npm install
+## Routes
+### /search?q={QUERY}
+Searches for a song on youtube and returns the first result infos
+- Results format:
 ```
-```bash
-npm start
+{
+    "title": "song title",
+    "author": "song author",
+    "thumbnail": "thumbnail url",
+    "length": "song length (seconds)",
+    "stream": "api stream route (/stream)",
+    "lyrics": "api lyrics route (/lyrics)"
+}
 ```
-The NodeJS server will now listen on port 5621
 
-## Youtube search
-To be able to enter only keywords in the player's search bar instead of giving a youtube link:
-- create a file named `ytKey.txt` in the root folder, containing your API Key for the Youtube API v3 api.
-- Next, restart the server and it should work.
+### /stream
+Returns the audio stream link of the last searched song
+- Results format:
+```
+{
+    "stream": "stream url",
+    "progress": "song current progress (seconds)"
+}
+```
 
+### /lyrics
+Returns the lyrics of the last searched song
+- Results format:
+```
+{
+    "lyrics": [
+        {
+            "text": "lyrics text",
+            "time": "lyrics time (seconds)"
+        },
+        ...
+    ]
+}
+```
+
+You can try VyBeen on my own website [here](https://furwaz.com/vybeen)
+
+---
 Author: [FurWaz](https://github.com/FurWaz)

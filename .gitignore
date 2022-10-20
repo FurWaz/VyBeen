@@ -1,6 +1,2 @@
-node_modules
-ytKey.txt
-assets
-.gitattributes
-input.ogg
-output.wav
+node_modules/
+key.txt
