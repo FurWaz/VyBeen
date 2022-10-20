@@ -37,6 +37,22 @@ app.get("/search", (req, res) => {
     })
 });
 
+app.get("/infos", (req, res) => {
+    if (currentVideoInfos === null) {
+        res.json("Error : No video currently playing");
+        return;
+    }
+
+    res.json({
+        title: currentVideoInfos.title,
+        author: currentVideoInfos.author,
+        thumbnail: currentVideoInfos.thumbnail,
+        length: currentVideoInfos.length,
+        stream: `/stream`,
+        lyrics: `/lyrics`
+    });
+});
+
 app.get("/stream", (req, res) => {
     res.send({
         stream: currentVideoInfos.stream,

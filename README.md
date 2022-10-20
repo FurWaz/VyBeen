@@ -16,8 +16,22 @@ Searches for a song on youtube and returns the first result infos
 }
 ```
 
+### /infos
+Returns the informations of the current song
+- Results format:
+```
+{
+    "title": "song title",
+    "author": "song author",
+    "thumbnail": "thumbnail url",
+    "length": "song length (seconds)",
+    "stream": "api stream route (/stream)",
+    "lyrics": "api lyrics route (/lyrics)"
+}
+```
+
 ### /stream
-Returns the audio stream link of the last searched song
+Returns the audio stream link of the current song
 - Results format:
 ```
 {
@@ -27,7 +41,7 @@ Returns the audio stream link of the last searched song
 ```
 
 ### /lyrics
-Returns the lyrics of the last searched song
+Returns the lyrics of the current song
 - Results format:
 ```
 {
