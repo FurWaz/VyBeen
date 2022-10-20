@@ -46,10 +46,8 @@ Returns the lyrics of the current song
 ```
 {
     "lyrics": [
-        {
-            "text": "lyrics text",
-            "time": "lyrics time (seconds)"
-        },
+        "lyrics line 1",
+        "lyrics line 2",
         ...
     ]
 }

@@ -1,7 +1,8 @@
+import cors from 'cors';
 import express from 'express';
 import search from './modules/search.js';
 import infos from './modules/infos.js';
-import cors from 'cors';
+import lyrics from './modules/lyrics.js';
 
 const app = express();
 let currentVideoInfos = null;
@@ -37,7 +38,7 @@ app.get("/search", (req, res) => {
     }).catch(err => {
         console.error(err);
         res.json("Error : Cannot find a video from the given prompt");
-    })
+    });
 });
 
 app.get("/infos", (req, res) => {
@@ -57,9 +58,30 @@ app.get("/infos", (req, res) => {
 });
 
 app.get("/stream", (req, res) => {
-    res.send({
+    if (currentVideoInfos === null) {
+        res.json("Error : No video currently playing");
+        return;
+    }
+
+    res.json({
         stream: currentVideoInfos.stream,
         progress: Date.now() - currentVideoInfos.startTime
+    });
+});
+
+app.get("/lyrics", (req, res) => {
+    if (currentVideoInfos === null) {
+        res.json("Error : No video currently playing");
+        return;
+    }
+
+    lyrics(currentVideoInfos.author, currentVideoInfos.title).then(result => {
+        res.json({
+            lyrics: result
+        });
+    }).catch(err => {
+        console.error(err);
+        res.json("Error : Cannot get lyrics");
     });
 });
 
