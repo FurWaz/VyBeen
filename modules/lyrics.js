@@ -12,7 +12,14 @@ function lyrics(artist, song) {
 }
 
 function cleanString(str) {
-    return str.split(" ").join("-").split("&").join("").split("--").join("-").split("--").join("-");
+    str = str.split("&").join("");
+    str = str.split(".").join(" ");
+    str = str.split(":").join("");
+    str = str.split("  ").join(" ");
+    str = str.split(" ").join("-");
+    str = str.split("--").join("-");
+    str = str.split("--").join("-");
+    return str;
 }
 
 function lyricsFromHTML(str) {
