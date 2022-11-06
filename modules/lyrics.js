@@ -44,7 +44,7 @@ function lyricsFromHTML(str) {
         p.nextElementSibling.firstElementChild.remove();
         const text_p1 = p.firstElementChild.innerHTML;
         const text_p2 = p.nextElementSibling.firstElementChild.firstElementChild.innerHTML;
-        const lyrics = (text_p1 + text_p2).split("\n\n").join("\n").split("\n");
+        const lyrics = (text_p1 + "\n" + text_p2).split("\n\n").join("\n").split("\n");
         resolve(lyrics);
     });
 }
