@@ -33,7 +33,7 @@ function lyricsFromHTML(str) {
     return lyrics;
 }
 
-function findInPage(links) {
+function findInPage(link) {
     return new Promise((resolve, reject) => {
         fetch(link).then(res => {
             res.text().then(text => {
