@@ -18,6 +18,7 @@ function lyrics(artist, song) {
                 else reject("Cannot find lyrics");
             });
         }
+        tryLink();
     });
 }
 
