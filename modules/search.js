@@ -3,7 +3,7 @@ import ytSearch from 'youtube-search';
 import fs from 'fs';
 
 let YT_KEY = "";
-let lastReqTime = Date.now();
+let lastReqTime = Date.now() - 10000;
 
 function search(q) {
     return new Promise((resolve, reject) => {
@@ -37,7 +37,7 @@ function makeSearch(q) {
 
         ytSearch(q+" lyrics", opts, (err, results) => {
             if (err) {
-                reject("Cannot find a video from the given prompt");
+                reject("Cannot find a video from the given prompt (" + err + ")");
             } else {
                 resolve(results[0].id);
             }

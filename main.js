@@ -2,7 +2,8 @@ import cors from 'cors';
 import express from 'express';
 import search from './modules/search.js';
 import infos from './modules/infos.js';
-import lyrics from './modules/lyrics.js';
+//import lyrics from './modules/lyrics.js';
+import lyrics from './modules/spotifyLyrics.js';
 
 const app = express();
 let currentVideoInfos = null;
