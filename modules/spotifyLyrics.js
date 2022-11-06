@@ -37,10 +37,6 @@ function retreiveToken() {
             }).then(res => {
                 res.json().then(json => {
                     TOKEN = json.access_token;
-                    fs.writeFile("spotify.txt", TOKEN, err => {
-                        if (err) reject(err);
-                        else resolve();
-                    });
                 }).catch(reject);
             }).catch(reject);
         });
