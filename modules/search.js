@@ -37,7 +37,7 @@ function makeSearch(q) {
 
         ytSearch(q, opts, (err, results) => {
             if (err) {
-                reject(err);
+                reject("Cannot find a video from the given prompt");
             } else {
                 resolve(results[0].id);
             }

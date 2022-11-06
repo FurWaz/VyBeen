@@ -37,7 +37,7 @@ app.get("/search", (req, res) => {
         });
     }).catch(err => {
         console.error(err);
-        res.json("Error : Cannot find a video from the given prompt");
+        res.json("Error : "+err);
     });
 });
 
@@ -81,7 +81,7 @@ app.get("/lyrics", (req, res) => {
         });
     }).catch(err => {
         console.error(err);
-        res.json("Error : Cannot get lyrics");
+        res.json("Error : Cannot get lyrics ("+err+")");
     });
 });
 
