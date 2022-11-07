@@ -105,7 +105,7 @@ function fetchLyrics(id) {
         fetch(LYRICS_LINK.replace("{ID}", id)).then(res => {
             res.json().then(json => {
                 resolve(json.lines.map(line => ({
-                    time: line.startTimeMs / 1000,
+                    time: line.startTimeMs,
                     text: line.words
                 })));
             }).catch(reject);
