@@ -35,7 +35,7 @@ function makeSearch(q) {
             type: "video"
         };
 
-        ytSearch(q, opts, (err, results) => {
+        ytSearch(q + " lyrics", opts, (err, results) => {
             if (err) {
                 reject("Cannot find a video from the given prompt (" + err + ")");
             } else {
