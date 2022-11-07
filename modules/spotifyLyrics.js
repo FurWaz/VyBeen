@@ -37,25 +37,25 @@ function retreiveToken() {
             }).then(res => {
                 res.json().then(json => {
                     TOKEN = json.access_token;
+                    resolve();
                 }).catch(reject);
             }).catch(reject);
         });
     });
 }
 
-function lyrics(artist, song) {
+function lyrics(query) {
     return new Promise((resolve, reject) => {
         if (TOKEN == "") {
             retreiveToken().then(() => {
-                findLyrics(artist, song).then(resolve).catch(reject);
+                findLyrics(query).then(resolve).catch(reject);
             }).catch(reject);
-        } else findLyrics(artist, song).then(resolve).catch(reject);
+        } else findLyrics(query).then(resolve).catch(reject);
     });
 }
 
-function findLyrics(artist, song) {
+function findLyrics(query) {
     return new Promise((resolve, reject) => {
-        const query = artist + " - " + song;
         if (lastRequest == query) {
             resolve(lastLyrics);
             return;

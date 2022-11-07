@@ -14,8 +14,9 @@ app.get("/", (req, res) => {
     res.redirect("https://furwaz.com/vybeen");
 });
 
+let q = null;
 app.get("/search", (req, res) => {
-    const q = req.query.q;
+    q = req.query.q;
     if (q === null || q === undefined || q === "") {
         res.json("Error : Invalid search parameter");
         return;
@@ -76,7 +77,7 @@ app.get("/lyrics", (req, res) => {
         return;
     }
 
-    lyrics(currentVideoInfos.author, currentVideoInfos.title).then(result => {
+    lyrics(q).then(result => {
         res.json({
             lyrics: result
         });
