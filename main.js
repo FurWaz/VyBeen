@@ -11,7 +11,7 @@ let currentVideoInfos = null;
 app.use(cors({ origin: '*' }));
 
 app.get("/", (req, res) => {
-    res.redirect("https://furwaz.com/vybeen");
+    res.redirect("https://furwaz.com/projects/vybeen");
 });
 
 let q = null;
