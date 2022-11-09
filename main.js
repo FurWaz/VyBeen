@@ -77,7 +77,7 @@ app.get("/lyrics", (req, res) => {
         return;
     }
 
-    lyrics(q).then(result => {
+    lyrics(currentVideoInfos.author+" - "+currentVideoInfos.title).then(result => {
         res.json({
             lyrics: result
         });
