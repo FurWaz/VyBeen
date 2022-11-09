@@ -36,7 +36,7 @@ function infos(id) {
                 id: info.videoDetails.videoId,
                 title: songInfos.title,
                 author: songInfos.artist,
-                length: info.videoDetails.lengthSeconds,
+                length: info.videoDetails.lengthSeconds * 1000,
                 thumbnail: info.videoDetails.thumbnails[info.videoDetails.thumbnails.length - 1].url,
                 description: info.videoDetails.description,
                 stream: res.url,
