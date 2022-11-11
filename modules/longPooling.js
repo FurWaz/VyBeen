@@ -86,7 +86,7 @@ function sendEventTo(id, event) {
                 } else {
                     removeClient(id).then(resolve).catch(reject);
                 }
-            }, 5000);
+            }, 2000);
         }
     });
 }
