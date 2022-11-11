@@ -64,7 +64,6 @@ app.get("/infos", (req, res) => {
         lyrics: `/lyrics`
     };
     res.json(data);
-    sendEvent(new Event("newMusic", data));
 });
 
 app.get("/stream", (req, res) => {
