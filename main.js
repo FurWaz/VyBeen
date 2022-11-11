@@ -121,7 +121,9 @@ app.get("/changeName", (req, res) => {
 });
 
 app.get("/events", (req, res) => {
-    registerNewRequest(req, res);
+    registerNewRequest(req, res)
+    .then(() => {})
+    .catch(err => { res.json("Error : "+err); });
 });
 
 app.get("/clients", (req, res) => {

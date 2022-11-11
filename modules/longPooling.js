@@ -19,20 +19,31 @@ let requestChecker = -1;
 
 function registerNewRequest(req, res) {
     return new Promise((resolve, reject) => {
-        requests.push({
-            req: req,
-            res: res,
-            id: req.query["id"]
-        });
-
-        if (requestChecker == -1) {
-            requestChecker = setInterval(() => {
-                sendEvent(new Event("ping", {}))
-                .then(() => {}).catch(err => {});
-            }, 1000);
+        const id = req.query["id"];
+        if (!id) {
+            reject("No client id provided");
+            return;
         }
-
-        resolve();
+        getClients().then(clients => {
+            const cIndex = clients.findIndex(client => client.id == id);
+            if (cIndex < 0) {
+                reject("Client not found");
+                return;
+            }
+            const request = requests.find(request => request.id == id);
+            if (request) {
+                reject("Request already exists");
+                return;
+            }
+            requests.push({req: req, res: res, id: id});
+            if (requestChecker == -1) {
+                requestChecker = setInterval(() => {
+                    sendEvent(new Event("ping", {}))
+                    .then(() => {}).catch(err => {});
+                }, 1000);
+            }
+            resolve();
+        });
     });
 }
 
