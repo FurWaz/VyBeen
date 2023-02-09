@@ -7,6 +7,7 @@ class Song {
 
         this.startDate = null;
         this.pause_date = null;
+        this.play();
     }
 
     get progress() {
