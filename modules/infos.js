@@ -6,19 +6,27 @@ function getSongInfos(title, author) {
     res = res.replace(/ *\([^)]*\) */g, "");
     res = res.replace(/ *\[[^)]*\] */g, "");
 
-    if (res.includes(" - ")) {
-        const split = res.split(" - ");
-        return {
-            artist: split[0].trim(),
-            title: split[1].trim()
-        };
-    }
-    if (res.includes(" | ")) {
-        const split = res.split(" | ");
-        return {
-            artist: split[0].trim(),
-            title: split[1].trim()
-        };
+    const separators = [":", "|", "-"];
+
+    const splitBy = (str, char) => {
+        if (str.includes(" "+char+" ")) {
+            const split = str.split(" "+char+" ");
+            return {
+                artist: split[0].trim(),
+                title: split[1].trim()
+            };
+        } else return str;
+    };
+
+    for (let i = 0; i < separators.length; i++) {
+        const sep = separators[i];
+        const split = splitBy(res, sep);
+        if (typeof split !== "string") {
+            return {
+                artist: split.artist,
+                title: split.title
+            };
+        }
     }
     
     return {

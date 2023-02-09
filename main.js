@@ -6,6 +6,8 @@ import infos from './modules/infos.js';
 import lyrics from './modules/spotifyLyrics.js';
 import { Event, registerNewRequest, sendEvent } from './modules/longPooling.js';
 import { changeClientName, getClients, registerClient } from './modules/users.js';
+import SongController from './modules/SongController.js';
+import Song from './modules/Song.js';
 
 const app = express();
 let currentVideoInfos = null;
@@ -37,6 +39,7 @@ app.get("/search", (req, res) => {
                 stream: `/stream`,
                 lyrics: `/lyrics`
             };
+            SongController.instance.setSong(new Song(infos.title, infos.author, infos.length));
             res.json(data);
             sendEvent(new Event("newMusic", data));
         }).catch(err => {
@@ -74,7 +77,7 @@ app.get("/stream", (req, res) => {
 
     res.json({
         stream: currentVideoInfos.stream,
-        progress: Date.now() - currentVideoInfos.startTime
+        progress: SongController.instance.play();
     });
 });
 
@@ -95,6 +98,20 @@ app.get("/lyrics", (req, res) => {
 });
 
 /** MUSIC ROUTES END **/
+
+/** MUSIC CONTROLS START **/
+
+app.get("/play", (req, res) => {
+    SongController.instance.play();
+    sendEvent(new Event("play", {}));
+});
+
+app.get("/pause", (req, res) => {
+    SongController.instance.pause();
+    sendEvent(new Event("pause", {}));
+});
+
+/** MUSIC CONTROLS END **/
 
 /** USER ROUTES START **/
 
