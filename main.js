@@ -77,7 +77,7 @@ app.get("/stream", (req, res) => {
 
     res.json({
         stream: currentVideoInfos.stream,
-        progress: SongController.instance.play();
+        progress: SongController.instance.song.progress
     });
 });
 

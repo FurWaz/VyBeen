@@ -10,6 +10,7 @@ class SongController {
     }
 
     constructor(song) {
+        /**@type {Song} */
         this.song = song;
     }
     
