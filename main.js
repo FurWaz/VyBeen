@@ -104,11 +104,13 @@ app.get("/lyrics", (req, res) => {
 app.get("/play", (req, res) => {
     SongController.instance.play();
     sendEvent(new Event("play", {}));
+    res.end();
 });
 
 app.get("/pause", (req, res) => {
     SongController.instance.pause();
     sendEvent(new Event("pause", {}));
+    res.end();
 });
 
 /** MUSIC CONTROLS END **/
