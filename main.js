@@ -15,7 +15,7 @@ let currentVideoInfos = null;
 app.use(cors({ origin: '*' }));
 
 app.get("/", (req, res) => {
-    res.redirect("https://furwaz.com/projects/vybeen");
+    res.redirect("https://furwaz.fr/projects/vybeen");
 });
 
 /** MUSIC ROUTES START **/
