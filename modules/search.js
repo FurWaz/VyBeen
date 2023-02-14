@@ -35,6 +35,19 @@ function makeSearch(q) {
             type: "video"
         };
 
+        if (!q.includes("list=") && (q.includes("youtube.com/watch?v=") || q.includes("youtu.be/"))) {
+            let query = q.trim().endsWith("/") ? q.trim().substring(0, q.length - 1) : q.trim();
+
+            if (query.includes("youtube.com/watch?v=")) {
+                resolve(query.split("v=").at(-1));
+                return;
+            } else if (query.includes("youtu.be/")) {
+                resolve(query.split("/").at(-1));
+                return;
+            }
+        }
+
+
         ytSearch(q + " lyrics", opts, (err, results) => {
             if (err) {
                 reject("Cannot find a video from the given prompt (" + err + ")");
