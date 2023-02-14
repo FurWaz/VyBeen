@@ -1,5 +1,3 @@
-import Song from "./Song";
-
 class SongController {
     static _instance = null;
     /**
