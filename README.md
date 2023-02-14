@@ -53,8 +53,8 @@ Returns the lyrics of the current song
 }
 ```
 
-You can try VyBeen on my own website [here](https://furwaz.com/vybeen)
-And the VyBeen API is available [here](https://vybeen.furwaz.com/)
+You can try VyBeen on my own website [here](https://furwaz.fr/vybeen)
+And the VyBeen API is available [here](https://vybeen.furwaz.fr/)
 
 ---
 Author: [FurWaz](https://github.com/FurWaz)
