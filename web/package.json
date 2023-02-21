@@ -1,6 +1,6 @@
 {
-    "name": "quid",
-    "version": "0.1.0",
+    "name": "vybeen",
+    "version": "1.0.0",
     "scripts": {
         "dev": "vite --host --port=80",
         "build": "vite build",
@@ -20,6 +20,6 @@
     "author": {
         "name": "Furwaz",
         "email": "fur.waz06@gmail.com",
-        "url": "http://furwaz.com"
+        "url": "http://furwaz.fr"
     }
 }
