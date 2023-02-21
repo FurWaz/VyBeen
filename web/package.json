@@ -1,0 +1,25 @@
+{
+    "name": "quid",
+    "version": "0.1.0",
+    "scripts": {
+        "dev": "vite --host --port=80",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@heroicons/vue": "^2.0.13",
+        "vite": "^2.9.15",
+        "vue": "^3.2.25",
+        "vue-router": "^4.0.12"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-vue": "^2.0.0",
+        "postcss": "^8.4.5",
+        "tailwindcss": "^3.0.17"
+    },
+    "author": {
+        "name": "Furwaz",
+        "email": "fur.waz06@gmail.com",
+        "url": "http://furwaz.com"
+    }
+}

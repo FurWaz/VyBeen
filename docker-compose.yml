@@ -1,5 +1,14 @@
-services:
-  web:
-    build: .
+ services:
+  node:
+    build: 
+      context: .
+      dockerfile: Dockerfile_Node
     ports:
-      - "1800:8080"
+      - "2001:8080"
+      
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile_Web
+    ports:
+      - "2000:8080"

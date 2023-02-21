@@ -15,7 +15,15 @@ let currentVideoInfos = null;
 app.use(cors({ origin: '*' }));
 
 app.get("/", (req, res) => {
-    res.redirect("https://furwaz.fr/projects/vybeen");
+    res.json({
+        name: "VyBeen",
+        routes: [
+            "/search?q={query}",
+            "/infos",
+            "/stream",
+            "/lyrics",
+        ]
+    });
 });
 
 /** MUSIC ROUTES START **/
