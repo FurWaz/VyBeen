@@ -50,7 +50,7 @@ function makeSearch(q) {
 
         ytSearch(q + " lyrics", opts, (err, results) => {
             if (err) {
-                reject("Cannot find a video from the given prompt (" + err + ")");
+                reject("Cannot find a video from the given prompt (" + err + ") : api key is " + YT_KEY);
             } else {
                 resolve(results[0].id);
             }

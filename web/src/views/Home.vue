@@ -1,74 +1,83 @@
 <template>
-    <div class="absolute top-0 right-0 w-screen h-screen bg-black">
-        <div id="background" class="absolute top-0 right-0 w-screen h-screen bg-cover bg-center blur-3xl"></div>
-        <div class="absolute top-0 right-0 w-screen h-screen flex grow bg-slate-900/[0.6]"></div>
-    </div>
-    <div class="flex grow flex-col z-50">
-        <audio id="audio" src="" class="hidden"></audio>
-        <vb-header></vb-header>
-        <div class="flex grow min-w-0 min-h-0">
-            <div class="flex grow flex-col justify-center px-4 min-w-0"> <!-- CONTENT -->
-                <div class="flex flex-col mx-auto p-1 min-w-0 max-w-full">
-                    <!-- SEARCH BAR -->
-                    <search></search>
-                    <!-- VIEW -->
-                    <player :init="obj => { player = obj; }"></player>
+    <div
+        v-if="User.CurrentUser !== null"
+        class="flex grow"
+    >
+        <div class="absolute top-0 right-0 w-screen h-screen bg-black">
+            <div id="background" class="absolute top-0 right-0 w-screen h-screen bg-cover bg-center blur-3xl"></div>
+            <div class="absolute top-0 right-0 w-screen h-screen flex grow bg-slate-900/[0.6]"></div>
+        </div>
+        <div class="flex grow flex-col z-50">
+            <audio id="audio" src="" class="hidden"></audio>
+            <vb-header></vb-header>
+            <div class="flex grow min-w-0 min-h-0">
+                <div class="flex grow flex-col justify-center px-4 min-w-0"> <!-- CONTENT -->
+                    <div class="flex flex-col mx-auto p-1 min-w-0 max-w-full">
+                        <!-- SEARCH BAR -->
+                        <search></search>
+                        <!-- VIEW -->
+                        <player :init="obj => { player = obj; }"></player>
+                    </div>
                 </div>
+                <drawer></drawer>
             </div>
-            <drawer></drawer>
         </div>
     </div>
-    <!-- <div class="show-up vybeen-popup hidden flex grow flex-col justify-center">
+    <div
+        v-else
+        class="show-up vybeen-popup hidden flex grow flex-col justify-center"
+    >
         <div class="flex mx-auto w-fit">
             
             <div class="flex flex-col bg-slate-700 border-2 border-slate-600 shadow-lg rounded-lg">
                 <h1 class="bg-slate-600 text-slate-200 font-bold text-xl py-2 px-4">VyBeen</h1>
                 <div class="p-4">
                     <p class="text-slate-300 font-semibold"> You are currently not connected. </p>
-                    <p class="text-slate-300 font-semibold"> Please <a href="/login?link=/projects/vybeen">log in</a> or <a href="/register?link=/projects/vybeen">register</a> to access VyBeen. </p>
+                    <p class="text-slate-300 font-semibold"> Please log in to your FurWaz account to access VyBeen. </p>
                 </div>
                 <div class="flex grow-0 justify-between p-2">
                     <button-text :action="goBack"> Cancel </button-text>
-                    <button-block href="/login?link=/projects/vybeen"> Log In </button-block>
+                    <button-block :onclick="login"> Log In </button-block>
                 </div>
             </div>
 
         </div>
-    </div> -->
+    </div>
 </template>
 
 <script>
 import Player from '../components/Player.vue';
 import Search from '../components/Search.vue';
 import VbHeader from '../components/VbHeader.vue';
-import Drawer from '../components/Drawer.vue'
-// import ButtonBlock from '../../main/components/buttons/ButtonBlock.vue';
-// import ButtonText from '../../main/components/buttons/ButtonText.vue';
-// import { goBack } from '../../main/scripts/common.js';
+import Drawer from '../components/Drawer.vue';
+import ButtonBlock from '../components/ButtonBlock.vue';
+import ButtonText from '../components/ButtonText.vue';
+
+import Portal from 'https://cdn.furwaz.fr/api/portal.min.js';
 
 import { toogleDrawer, showLyrics, doesShowLyrics, setPlayingIcon, displaySoundPanel, hideSoundPanel } from '../scripts/uiManager.js';
-import { fetchInfos, requestSearch, startMainLoop } from '../scripts/main';
+import { fetchInfos, requestSearch, startMainLoop, API_URL } from '../scripts/main';
 import { setupEvents } from '../scripts/events';
 import { fetchClients } from '../scripts/clients';
-// import User from '../../main/scripts/User';
+import User from '../scripts/User';
 
 function setup() {
-    // if (User.CurrentUser == null) {
-    //     const uis = document.getElementsByClassName('vybeen-ui');
-    //     for (let i = 0; i < uis.length; i++) {
-    //         uis[i].classList.add('hidden');
-    //     }
-    //     const popup = document.getElementsByClassName('vybeen-popup')[0];
-    //     popup.classList.remove('hidden');
-    //     return;
-    // }
+    if (User.CurrentUser == null) {
+        const uis = document.getElementsByClassName('vybeen-ui');
+        for (let i = 0; i < uis.length; i++) {
+            uis[i].classList.add('hidden');
+        }
+        const popup = document.getElementsByClassName('vybeen-popup')[0];
+        popup.classList.remove('hidden');
+        return;
+    }
 
     document.getElementById("show-lyrics-btn").addEventListener("click", ev => {
         showLyrics(!doesShowLyrics());
     });
 
     document.getElementById("btn-back").addEventListener("click", ev => {
-        goBack();
+        window.history.back();
     });
 
     document.getElementById("btn-toggle-drawer").addEventListener("click", ev => {
@@ -109,23 +118,43 @@ function setup() {
 export default {
     name: 'Home',
     data() {
-        return {}
+        return {
+            User
+        }
     },
     components: {
         Player,
         Search,
         VbHeader,
         Drawer,
-        // ButtonBlock,
-        // ButtonText
+        ButtonBlock,
+        ButtonText
     },
-    methods: { goBack: () => {} },
     mounted() {
         setup();
-        setupEvents();
-        fetchInfos();
-        fetchClients();
-        startMainLoop();
+        if (User.CurrentUser !== null) {
+            setupEvents();
+            fetchInfos();
+            fetchClients();
+            startMainLoop();
+        }
+    },
+    methods: {
+        login() {
+            fetch(API_URL + "/login").then(res => res.json()).then(json => {
+                const token = json.token;
+                const portal = new Portal(token);
+                portal.open();
+                portal.on('error', err => { console.error(err); });
+                portal.on('response', infos => {
+                    User.CurrentUser = infos;
+                    window.location.reload();
+                });
+            }).catch(console.error);
+        },
+        goBack() {
+            window.history.back();
+        }
     }
 }
 </script>

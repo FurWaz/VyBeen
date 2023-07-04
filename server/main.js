@@ -8,6 +8,7 @@ import { Event, registerNewRequest, sendEvent } from './modules/longPooling.js';
 import { changeClientName, getClients, registerClient } from './modules/users.js';
 import SongController from './modules/SongController.js';
 import Song from './modules/Song.js';
+import { generateLoginToken } from './modules/login.js';
 
 const app = express();
 let currentVideoInfos = null;
@@ -96,12 +97,19 @@ app.get("/lyrics", (req, res) => {
     }
 
     lyrics(currentVideoInfos.author+" - "+currentVideoInfos.title).then(result => {
-        res.json({
-            lyrics: result
-        });
+        res.json({ lyrics: result });
     }).catch(err => {
         console.error(err);
         res.json("Error : Cannot get lyrics ("+err+")");
+    });
+});
+
+app.get("/login", (req, res) => {
+    generateLoginToken().then(token => {
+        res.json({ token });
+    }).catch(err => {
+        console.error(err);
+        res.json("Error : Cannot get login token");
     });
 });
 

@@ -40,7 +40,7 @@ function retreiveToken() {
                     resolve();
                 }).catch(reject);
             }).catch(reject);
-        });
+        }).catch(reject);
     });
 }
 
@@ -76,18 +76,20 @@ function findLyrics(query) {
 
 function getSongID(query, retry = true) {
     return new Promise((resolve, reject) => {
-        fetch(SPOTIFY_LINK.replace("{REQUEST}", query), {
+        fetch(SPOTIFY_LINK.replace("{REQUEST}", encodeURI(query)), {
             method: "GET",
             headers: {
-                "Authorization": "Bearer " + TOKEN,
+                "Authorization": "Bearer BQAMSH2G5qnqVU0vctrThSWmbk0iouXBB86tL0qrNKtWBb9QB3XzfWGSMmxLITxIHETQ_-5CWsypxwH8xSO4zbNDNt0ihY62g2N6ryhDfEP5vXbYqg8_zTImgNgxaRrJloM_xSx1bDGL49YLCxKVQaNsD1jO-W8tEkKcAKd6mnKcjRQwhT_-qOqIXmQu2Km9rvPK4vg",
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }).then(res => {
             res.json().then(json => {
                 try {
-                    const res = json.tracks.items[0].id;
-                    resolve(res);
+                    const result = json.tracks.items[0];
+                    console.log('result', result)
+                    console.log('result type = ' + result.type);
+                    resolve(result.id);
                 } catch (err) {
                     if (retry) {
                         retreiveToken().then(() => {

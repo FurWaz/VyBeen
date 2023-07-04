@@ -15,8 +15,8 @@
                     </div>
                     <div class="flex flex-col justify-center">
                         <p class="text-xl font-semibold text-slate-50 whitespace-nowrap">
-                            <!-- {{ (User.CurrentUser == null) ? "Anonyme": User.CurrentUser.username }} -->
-                            <span class="text-slate-500">(You)</span>
+                            {{ (User.CurrentUser == null) ? "Anonyme": User.CurrentUser.pseudo }}
+                            <span class="text-slate-500"> (You)</span>
                         </p>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-// import User from '../../main/scripts/User.js';
+import User from '../scripts/User';
 
 const friends = [];
 // TODO : make server connection (long pooling for events, register, etc)
@@ -50,7 +50,12 @@ export default {
     name: "Drawer",
     components: {},
     methods: {},
-    data() { return { friends }; },
+    data() {
+        return {
+            friends,
+            User
+        };
+    },
     setup() {},
     mounted() {}
 };
